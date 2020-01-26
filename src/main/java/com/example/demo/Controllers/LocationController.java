@@ -5,20 +5,12 @@ import com.example.demo.Repositories.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.*;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.*;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
-
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.BasicQuery;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -144,6 +136,25 @@ public class LocationController{
 
         return dureeLocation;
     }
+
+    //le Client qui a effectué plus d'accident
+    @GetMapping(value="/ClientAcc")
+    public  Client getClientPLusAcci(){
+        ProjectionOperation project = Aggregation.
+                project("accident","client").
+                and(ArrayOperators.arrayOf("accident").length()).as("countAcc");
+        Aggregation agg = Aggregation.newAggregation(project,
+                group("client").sum("countAcc").as("count"),
+                project("count").and("client").previousOperation(),
+                sort(Sort.Direction.DESC, "count"),limit(1));
+
+        ClientAccident result = mongoTemplate.aggregate(agg, "Location", ClientAccident.class).getUniqueMappedResult();
+        Client client=result.getClient();
+
+
+        return client;
+    }
+
 
     //voiture la plus louée en terme de nombre de jours de location
     @GetMapping(value="/VoiturePlusLoueJrs")
