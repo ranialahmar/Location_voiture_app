@@ -21,4 +21,6 @@ public interface VoitureRepository extends MongoRepository<Voiture,ObjectId> {
 
     @Query(value="{}", sort = "{prix:1}")
     List<Voiture> sortby();
+    @Query(value="{Modele: ?0}")
+    Voiture findByModele(String Modele);
 }
