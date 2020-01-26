@@ -12,8 +12,8 @@ public interface VoitureRepository extends MongoRepository<Voiture,ObjectId> {
 
 
 
-    Voiture findByImmat(String Immat);
-    Voiture findVoitureByNumChassis(String NumChassis);
+    //Voiture findByImmat(String Immat);
+    //Voiture findVoitureByNumChassis(String NumChassis);
     Voiture findBy_id(ObjectId _id);
 
     @Query(value="{Modele: ?0}", count = true)

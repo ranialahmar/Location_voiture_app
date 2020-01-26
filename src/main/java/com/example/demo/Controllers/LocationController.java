@@ -1,6 +1,7 @@
 package com.example.demo.Controllers;
 
 import com.example.demo.Models.*;
+import com.example.demo.Classes.*;
 import com.example.demo.Repositories.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -230,7 +231,7 @@ public class LocationController{
                 project("countCli").and("client").previousOperation(),
                 sort(Sort.Direction.DESC, "countCli"),limit(1));
 
-        clientLoc result = mongoTemplate.aggregate(agg, "Location", clientLoc.class).getUniqueMappedResult();
+        ClientLocation result = mongoTemplate.aggregate(agg, "Location", ClientLocation.class).getUniqueMappedResult();
         Client client=result.getClient();
         return client;
 
