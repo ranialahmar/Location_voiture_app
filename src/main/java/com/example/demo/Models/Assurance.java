@@ -8,24 +8,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 
-@Document
+
 public class Assurance  {
 
-    /*@Id
-    private Long Assurance_id;*/
+
     private String assureur;
     private String typeAssurance;
     private Float cotisation;
 
     public Assurance(){}
 
-    /*public Long getId() {
-        return Assurance_id;
-    }
-
-    public void setId(Long id) {
-        this.Assurance_id= id;
-    }*/
 
     public String getAssureur() {
         return assureur;
